@@ -10,12 +10,23 @@ export class MainJumbotron extends Component {
     data :[],
     username : this.props.username,
     show : false,
-    user : ''
+    user : '',
+    userImage:""
   }
+
+  bufferToBase64(buf) {
+    var binstr = Array.prototype.map
+      .call(buf, function (ch) {
+        return String.fromCharCode(ch);
+      })
+      .join("");
+    return btoa(binstr);
+  }
+
   componentDidMount =async()=>{
     this.fetchData()
     let response = await fetch(
-      "https://striveschool.herokuapp.com/api/profile/me",
+      "http://localhost:3002/profile/5f17f1e96b681b26e817d509",
       {
         method: "GET",
         headers: new Headers({
@@ -25,8 +36,9 @@ export class MainJumbotron extends Component {
       }
     )
     let parsedJson = await response.json()
+    let userImage = this.bufferToBase64(parsedJson.image.data)
     let user = parsedJson.username
-    this.setState({user})
+    this.setState({user,userImage})
   }
 
   componentDidUpdate(){
@@ -36,7 +48,7 @@ export class MainJumbotron extends Component {
     }
   }
   async fetchData(){
-    let response = await fetch(`https://striveschool.herokuapp.com/api/profile/${this.state.username}`,{
+    let response = await fetch(`http://localhost:3002/profile/5f17f1e96b681b26e817d509`,{
       method :'GET',
       headers : new Headers({
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
@@ -64,7 +76,7 @@ export class MainJumbotron extends Component {
         </div>
         <div id='profileSection'>
           <div style={{cursor: 'pointer'}}>
-            {this.state.data.image ?<img onClick={this.verifyProfile} src={this.state.data.image} alt=""/> 
+            {this.state.data.image ?<img onClick={this.verifyProfile} src={`data:image/jpeg;base64,${this.state.userImage}`} alt=""/> 
           : <img onClick={this.verifyProfile} src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt=""/>  
           }
             {/* <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt=""/> */}
