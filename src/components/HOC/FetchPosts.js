@@ -20,7 +20,6 @@ function postsData(WrappedComponent) {
     async fetchPosts() {
       let postsData = {
         method: "GET",
-        //url: `https://striveschool.herokuapp.com/api/posts/`,
         url: `http://localhost:3333/posts`,
         headers: {
           Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
