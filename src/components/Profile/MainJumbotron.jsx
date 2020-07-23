@@ -34,7 +34,7 @@ export class MainJumbotron extends Component {
   componentDidMount = async () => {
     this.fetchData();
     let response = await fetch(
-      "http://localhost:3002/profile/5f17f1e96b681b26e817d509",
+      "https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554",
       {
         method: "GET",
         headers: new Headers({
@@ -58,7 +58,7 @@ export class MainJumbotron extends Component {
   }
   async fetchData() {
     let response = await fetch(
-      `http://localhost:3002/profile/5f17f1e96b681b26e817d509`,
+      `https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554`,
       {
         method: "GET",
         headers: new Headers({
