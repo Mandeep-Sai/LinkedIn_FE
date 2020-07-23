@@ -30,7 +30,7 @@ class Profile extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://be-linkedin.herokuapp.com/profile/5f197579b21b8000174c08b0",
+      "https://be-linkedin.herokuapp.com/profile/5f17f1e96b681b26e817d509",
       {
         method: "GET",
         headers: new Headers({
