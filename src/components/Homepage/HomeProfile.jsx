@@ -18,7 +18,7 @@ export default class homeprofile extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554",
+      "https://be-linkedin.herokuapp.com/profile/user1",
       {
         method: "GET",
         headers: new Headers({
@@ -27,7 +27,8 @@ export default class homeprofile extends Component {
         }),
       }
     );
-    let user = await response.json();
+    let parsedJson = await response.json();
+    let user = parsedJson[0];
     const base64 = this.bufferToBase64(user.image.data);
     console.log(user);
     this.setState({ image: base64, user });
