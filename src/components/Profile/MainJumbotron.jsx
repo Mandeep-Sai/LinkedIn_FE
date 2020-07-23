@@ -16,10 +16,10 @@ import { withRouter } from "react-router-dom";
 export class MainJumbotron extends Component {
   state = {
     data: [],
-    username: this.props.username,
+    username: this.props.match.params.id,
     show: false,
     user: "",
-    userImage: "",
+    userImage: ""
   };
 
   bufferToBase64(buf) {
@@ -34,7 +34,7 @@ export class MainJumbotron extends Component {
   componentDidMount = async () => {
     this.fetchData();
     let response = await fetch(
-      "http://localhost:3002/profile/5f17f1e96b681b26e817d509",
+      "https://be-linkedin.herokuapp.com/profile/" + this.state.username,
       {
         method: "GET",
         headers: new Headers({
@@ -44,8 +44,8 @@ export class MainJumbotron extends Component {
       }
     );
     let parsedJson = await response.json();
-    let userImage = this.bufferToBase64(parsedJson.image.data);
-    let user = parsedJson.username;
+    let userImage = this.bufferToBase64(parsedJson[0].image.data);
+    let user = parsedJson[0];
     this.setState({ user, userImage });
   };
 
@@ -58,7 +58,7 @@ export class MainJumbotron extends Component {
   }
   async fetchData() {
     let response = await fetch(
-      `http://localhost:3002/profile/5f17f1e96b681b26e817d509`,
+      `https://be-linkedin.herokuapp.com/profile/` + this.state.username,
       {
         method: "GET",
         headers: new Headers({
@@ -93,7 +93,7 @@ export class MainJumbotron extends Component {
           </div>
           <div id="profileSection">
             <div style={{ cursor: "pointer" }}>
-              {this.state.data.image ? (
+              {this.state.user.image ? (
                 <img
                   onClick={this.verifyProfile}
                   src={`data:image/jpeg;base64,${this.state.userImage}`}
@@ -128,10 +128,10 @@ export class MainJumbotron extends Component {
           <div id="profileInfo">
             <div id="info">
               <div id="personalInfo">
-                <p>{this.state.data.name + " " + this.state.data.surname}</p>
-                <p>{this.state.data.title}</p>
+                <p>{this.state.user.name + " " + this.state.user.surname}</p>
+                <p>{this.state.user.title}</p>
                 <p>
-                  {this.state.data.area} -<span> 51 connections </span>-
+                  {this.state.user.area} -<span> 51 connections </span>-
                   <span> Contact info </span>
                 </p>
               </div>
@@ -141,7 +141,7 @@ export class MainJumbotron extends Component {
           <div id="present">
             <div>
               <p>Open to job opportunities</p>
-              <p>{this.state.data.bio}</p>
+              <p>{this.state.user.bio}</p>
               <p>See all details</p>
             </div>
             <IconContext.Provider value={{ className: "editIcon" }}>
