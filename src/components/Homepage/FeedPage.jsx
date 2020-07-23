@@ -36,6 +36,10 @@ export default class Homepage extends Component {
       },
       data: data1,
     };
+    console.log(postData);
+    if (postData.ok) {
+      this.fetchData();
+    }
     let data = await axios(postData);
     let inputFile = {
       method: "POST",
