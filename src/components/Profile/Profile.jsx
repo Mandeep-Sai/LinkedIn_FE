@@ -30,7 +30,7 @@ class Profile extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://be-linkedin.herokuapp.com/profile/5f17f1e96b681b26e817d509",
+      "https://be-linkedin.herokuapp.com/profile/5f197579b21b8000174c08b0",
       {
         method: "GET",
         headers: new Headers({
@@ -58,7 +58,7 @@ class Profile extends Component {
   async fetchExperience() {
     let experience = {
       method: "GET",
-      url: `https://be-linkedin.herokuapp.com/profile/admin/experience`,
+      url: `https://be-linkedin.herokuapp.com/profile/user1/experience`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
