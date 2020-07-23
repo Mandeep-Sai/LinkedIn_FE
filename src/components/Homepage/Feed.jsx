@@ -27,7 +27,6 @@ class Feed extends Component {
     this.setState({
       username: userName,
       posts: this.props.posts,
-      loading: false,
     });
   };
   componentDidUpdate() {
