@@ -20,9 +20,17 @@ class Profile extends Component {
     loading: true,
     name: "",
   };
+  bufferToBase64(buf) {
+    var binstr = Array.prototype.map
+      .call(buf, function (ch) {
+        return String.fromCharCode(ch);
+      })
+      .join("");
+    return btoa(binstr);
+  }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://striveschool.herokuapp.com/api/profile/me",
+      "https://be-linkedin.herokuapp.com/profile/5f17f1e96b681b26e817d509",
       {
         method: "GET",
         headers: new Headers({
@@ -51,7 +59,7 @@ class Profile extends Component {
   async fetchExperience() {
     let experience = {
       method: "GET",
-      url: `https://striveschool.herokuapp.com/api/profile/admin/experiences`,
+      url: `https://be-linkedin.herokuapp.com/profile/admin/experience`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
@@ -64,9 +72,16 @@ class Profile extends Component {
       },
     };
     let experiences = await axios(experience);
+    let experiencesData = experiences.data;
+    experiencesData.forEach((experience) => {
+      if (experience.image) {
+        const base64 = this.bufferToBase64(experience.image.data);
+        experience.image = base64;
+      }
+    });
     let usersData = await axios(users);
     this.setState({
-      experiences: experiences.data,
+      experiences: experiencesData,
       users: usersData.data,
       loading: false,
     });
@@ -99,7 +114,7 @@ class Profile extends Component {
                         user={this.state.name}
                         id={element._id}
                         currentUser={element.username}
-                        image={element.image.data}
+                        image={element.image}
                         role={element.role}
                         company={element.company}
                         startDate={element.startDate}
