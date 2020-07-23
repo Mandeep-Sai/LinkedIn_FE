@@ -58,7 +58,7 @@ class Profile extends Component {
   async fetchExperience() {
     let experience = {
       method: "GET",
-      url: `https://be-linkedin.herokuapp.com/profile/user1/experience`,
+      url: `https://be-linkedin.herokuapp.com/profile/${this.state.username}/experience`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
@@ -102,15 +102,17 @@ class Profile extends Component {
                 <div id="experiences">
                   <div id="header">
                     <p>Experience</p>
-                    <Link to="/addExperience">
-                      <FaPlus />
-                    </Link>
+                    {this.state.username === "user1" && (
+                      <Link to="/addExperience">
+                        <FaPlus />
+                      </Link>
+                    )}
                   </div>
                   {this.state.experiences.map((element) => {
                     console.log(element);
                     return (
                       <Experiences
-                        user={this.state.name}
+                        user={this.state.username}
                         id={element._id}
                         currentUser={element.username}
                         image={element.image}

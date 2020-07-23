@@ -27,13 +27,13 @@ class NavBar extends Component {
     search: "",
     users: [],
     show: false,
-    image :''
+    image: "",
   };
 
-  componentDidMount= async()=> {
+  componentDidMount = async () => {
     this.setState({ users: this.props.users });
     let response = await fetch(
-      "https://striveschool.herokuapp.com/api/profile/me",
+      "https://be-linkedin.herokuapp.com/profile/user1",
       {
         method: "GET",
         headers: new Headers({
@@ -41,10 +41,10 @@ class NavBar extends Component {
           "Content-type": "application/json",
         }),
       }
-    )
-    let parsedJson = await response.json()
-    this.setState({image : parsedJson.image})
-  }
+    );
+    let parsedJson = await response.json();
+    this.setState({ image: parsedJson.image });
+  };
   render() {
     return (
       <Navbar
@@ -86,9 +86,11 @@ class NavBar extends Component {
                       element.name.toLowerCase().includes(this.state.search)
                     ) {
                       return (
-                        
-                          <Dropdown.Item><Link to={"/profile/" + element.username}>{element.name}</Link></Dropdown.Item>
-                        
+                        <Dropdown.Item>
+                          <Link to={"/profile/" + element.username}>
+                            {element.name}
+                          </Link>
+                        </Dropdown.Item>
                       );
                     }
                   })
@@ -120,7 +122,7 @@ class NavBar extends Component {
               <IoMdNotificationsOutline style={{ fontSize: "20px" }} />
               <div style={{ fontSize: "13px" }}> Notifications</div>
             </Nav.Link>
-            <Link className="nav-link" to="/profile/user7">
+            <Link className="nav-link" to="/profile/user1">
               <img
                 src={this.state.image}
                 style={{ borderRadius: "50%", height: "20px", width: "20px" }}

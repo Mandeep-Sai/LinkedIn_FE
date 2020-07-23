@@ -31,7 +31,7 @@ class Experiences extends Component {
     */
     let postExp = {
       method: "PUT",
-      url: `https://be-linkedin.herokuapp.com/profile/admin/experience/${this.props.id}`,
+      url: `https://be-linkedin.herokuapp.com/profile/user1/experience/${this.props.id}`,
       headers: { Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E") },
       data: expe,
     };
@@ -39,7 +39,17 @@ class Experiences extends Component {
     let exp = await axios(postExp);
   }
 
-  deleteExp = async () => {};
+  deleteExp = async () => {
+    let response = await fetch(
+      `https://be-linkedin.herokuapp.com/profile/user1/experience/${this.props.id}
+    `,
+      {
+        method: "DELETE",
+      }
+    );
+
+    console.log(response);
+  };
   render() {
     return (
       <>
@@ -66,7 +76,8 @@ class Experiences extends Component {
               <p>{this.props.startDate}</p>
             </div>
           </div>
-          {this.props.user !== this.props.currentUser ? (
+          {console.log("USER", this.props.user)}
+          {this.props.user === "user1" ? (
             <IconContext.Provider
               value={{ color: "#0073B1", marginTop: "5px" }}
             >
@@ -139,7 +150,7 @@ class Experiences extends Component {
                       this.setState({ show: false });
                     }}
                   >
-                    Save Changes
+                    DELETE
                   </Button>
                 </Modal.Footer>
               </Modal>
