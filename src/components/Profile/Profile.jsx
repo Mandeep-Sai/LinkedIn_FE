@@ -30,7 +30,7 @@ class Profile extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://be-linkedin.herokuapp.com/profile/5f17f1e96b681b26e817d509",
+      "https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554",
       {
         method: "GET",
         headers: new Headers({
@@ -65,7 +65,7 @@ class Profile extends Component {
     };
     let users = {
       method: "GET",
-      url: `https://striveschool.herokuapp.com/api/profile/`,
+      url: `https://be-linkedin.herokuapp.com/profile/`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
@@ -84,7 +84,7 @@ class Profile extends Component {
       users: usersData.data,
       loading: false,
     });
-    console.log(experiences, usersData.data);
+    console.log("fesfsdfwe", experiences, usersData.data);
   }
   render() {
     return (
