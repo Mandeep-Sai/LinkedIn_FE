@@ -38,6 +38,8 @@ class Experiences extends Component {
     // let pic = await axios(postPic);
     let exp = await axios(postExp);
   }
+
+  deleteExp = async () => {};
   render() {
     return (
       <>
@@ -125,6 +127,15 @@ class Experiences extends Component {
                     variant="primary"
                     onClick={(e) => {
                       this.postExp();
+                      this.setState({ show: false });
+                    }}
+                  >
+                    Save Changes
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={(e) => {
+                      this.deleteExp();
                       this.setState({ show: false });
                     }}
                   >
