@@ -13,7 +13,8 @@ class Feed extends Component {
   };
   componentDidMount = async () => {
     let user = await fetch(
-      "https://striveschool.herokuapp.com/api/profile/me",
+      // 5f17f09fe0e59837acf4a554
+      "https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554",
       {
         method: "GET",
         headers: new Headers({
@@ -23,11 +24,11 @@ class Feed extends Component {
       }
     );
     let userName = await user.json();
-
+    console.log(this.props.posts);
     this.setState({
-      username: userName,
-      posts: this.props.posts,
-      loading: false,
+      username: userName.username,
+      // posts: this.props.posts,
+      // loading: false,
     });
   };
   componentDidUpdate() {
@@ -36,6 +37,7 @@ class Feed extends Component {
         this.setState({ loading: false, fetch: this.state.fetch + 1 })
       );
     }
+    console.log(this.props.posts);
   }
   handleShow = () => {
     this.setState({ show: true });

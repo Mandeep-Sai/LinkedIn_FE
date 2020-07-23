@@ -29,22 +29,23 @@ export default class Homepage extends Component {
     let postData = {
       method: "POST",
       //url: `https://striveschool.herokuapp.com/api/posts/`,
-      url: `http://localhost:3333/posts`,
+      url: `https://be-linkedin.herokuapp.com/posts`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
         user: "user1",
       },
       data: data1,
     };
-    console.log(postData);
     let data = await axios(postData);
     let inputFile = {
       method: "POST",
-      url: await `https://striveschool.herokuapp.com/api/posts/${data.data._id}`,
+      url: await `https://be-linkedin.herokuapp.com/posts/${data.data}`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
+        // "Access-Control-Allow-Origin": "hhttps://be-linkedin.herokuapp.com",
+        // "Content-Type": "formdata",
       },
-      data: this.state.inputFile,
+      data: { image: this.state.inputFile },
     };
     let input = await axios(inputFile);
 
@@ -52,6 +53,8 @@ export default class Homepage extends Component {
   }
 
   async fetchData() {
+    console.log(this.props.match.params.id);
+    /*
     let user = {
       method: "GET",
       url: `https://striveschool.herokuapp.com/api/profile/${this.props.match.params.id}`,
@@ -59,18 +62,19 @@ export default class Homepage extends Component {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
     };
+    */
     let posts = {
       method: "GET",
       // url: `https://striveschool.herokuapp.com/api/posts`,
-      url: `http://localhost:3333/posts`,
+      url: `https://be-linkedin.herokuapp.com/posts`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
     };
-    let User = await axios(user);
+    //let User = await axios(user);
     let Posts = await axios(posts);
-    this.setState({ user: User.data, posts: Posts.data }, () =>
-      console.log(this.state.user, this.state.posts.reverse())
+    this.setState({ posts: Posts.data }, () =>
+      console.log(this.state.posts.reverse())
     );
   }
 
@@ -81,7 +85,7 @@ export default class Homepage extends Component {
         <Container className="mt-5 mb-2 pt-3">
           <Row>
             <Col lg={3}>
-              <HomeProfile name={this.state.user.name} />
+              <HomeProfile />
               <Leftsidebar />
             </Col>
             <Col lg={6} style={{ paddingLeft: "0px" }}>
