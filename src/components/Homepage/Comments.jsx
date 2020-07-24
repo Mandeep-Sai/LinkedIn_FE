@@ -12,7 +12,7 @@ export class Comments extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      `http://localhost:3333/comments/${this.props.id}`,
+      `https://be-linkedin.herokuapp.com/comments/${this.props.id}`,
       {
         method: "GET",
         headers: new Headers({
