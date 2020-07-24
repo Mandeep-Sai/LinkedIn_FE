@@ -90,15 +90,20 @@ class NavBar extends Component {
               <Dropdown.Menu show={this.state.show}>
                 {this.state.show ? (
                   this.props.users.map((element) => {
+                    {
+                      console.log(element);
+                    }
                     if (
                       element.name.toLowerCase().includes(this.state.search)
                     ) {
                       return (
-                        <Dropdown.Item>
-                          <Link to={"/profile/" + element.username}>
-                            {element.name}
-                          </Link>
-                        </Dropdown.Item>
+                        <>
+                          <Dropdown.Item>
+                            <Link to={"/profile/" + element.username}>
+                              {element.name}
+                            </Link>
+                          </Dropdown.Item>
+                        </>
                       );
                     }
                   })

@@ -47,9 +47,10 @@ export class MainJumbotron extends Component {
       }
     );
     let parsedJson = await response.json();
-    let userImage = this.bufferToBase64(parsedJson[0].image.data);
     let user = parsedJson[0];
-    this.setState({ user, userImage });
+    let base64 = this.bufferToBase64(user.image.data);
+    user.image = base64;
+    this.setState({ user });
   };
 
   componentDidUpdate = async (prevState) => {
@@ -72,7 +73,10 @@ export class MainJumbotron extends Component {
       }
     );
     let parsedJson = await response.json();
-    this.setState({ user: parsedJson[0] });
+    let user = parsedJson[0];
+    let base64 = this.bufferToBase64(user.image.data);
+    user.image = base64;
+    this.setState({ user });
   }
   verifyProfile = async () => {
     console.log(this.state.data);
@@ -103,7 +107,7 @@ export class MainJumbotron extends Component {
                 {this.state.user.image ? (
                   <img
                     onClick={this.verifyProfile}
-                    src={`data:image/jpeg;base64,${this.state.userImage}`}
+                    src={`data:image/jpeg;base64,${this.state.user.image}`}
                     alt=""
                   />
                 ) : (
