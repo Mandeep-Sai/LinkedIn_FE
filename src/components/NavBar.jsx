@@ -29,6 +29,14 @@ class NavBar extends Component {
     show: false,
     image: "",
   };
+  bufferToBase64(buf) {
+    var binstr = Array.prototype.map
+      .call(buf, function (ch) {
+        return String.fromCharCode(ch);
+      })
+      .join("");
+    return btoa(binstr);
+  }
 
   componentDidMount = async () => {
     this.setState({ users: this.props.users });
@@ -43,7 +51,9 @@ class NavBar extends Component {
       }
     );
     let parsedJson = await response.json();
-    this.setState({ image: parsedJson.image });
+
+    const base64 = this.bufferToBase64(parsedJson[0].image.data);
+    this.setState({ image: base64 });
   };
   render() {
     return (
@@ -69,10 +79,8 @@ class NavBar extends Component {
                 className="mr-sm-2"
                 style={{ width: "250px", height: "33px" }}
                 onChange={(e) => {
-                  this.setState({ search: e.target.value }, () =>
-                    console.log(this.state.search)
-                  );
-                  if (e.target.value.length > 1) {
+                  this.setState({ search: e.target.value });
+                  if (e.target.value.length >= 1) {
                     this.setState({ show: true });
                   } else {
                     this.setState({ show: false });
@@ -124,7 +132,7 @@ class NavBar extends Component {
             </Nav.Link>
             <Link className="nav-link" to="/profile/user1">
               <img
-                src={this.state.image}
+                src={`data:image/jpeg;base64,${this.state.image}`}
                 style={{ borderRadius: "50%", height: "20px", width: "20px" }}
               ></img>
               <div style={{ fontSize: "13px" }}>

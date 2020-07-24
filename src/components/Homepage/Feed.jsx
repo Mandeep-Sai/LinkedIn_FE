@@ -8,6 +8,7 @@ import FetchPosts from "../HOC/FetchPosts";
 class Feed extends Component {
   state = {
     posts: [],
+    numberOfPosts: "",
     username: [],
     loading: true,
   };
@@ -22,20 +23,27 @@ class Feed extends Component {
         }),
       }
     );
+    let fetchPosts = await fetch("https://be-linkedin.herokuapp.com/posts");
+    let posts = await fetchPosts.json();
+    this.setState({ posts, loading: false, numberOfPosts: posts.length });
     let userName = await user.json();
 
     this.setState({
       username: userName,
-      posts: this.props.posts,
+      // posts: this.props.posts,
     });
   };
-  componentDidUpdate() {
-    if (this.props.posts.length > 1 && this.state.loading) {
-      this.setState({ posts: this.props.posts }, () =>
-        this.setState({ loading: false, fetch: this.state.fetch + 1 })
-      );
+  //
+
+  /*
+  componentDidUpdate = async (prevState) => {
+    if (this.state.numberOfPosts !== prevState.numberOfPosts) {
+      let refetch = await fetch("https://be-linkedin.herokuapp.com/posts");
+      let posts = refetch.json();
+      this.setState({ posts, loading: false });
     }
-  }
+  };
+*/
   handleShow = () => {
     this.setState({ show: true });
   };
@@ -58,7 +66,12 @@ class Feed extends Component {
           ) : (
             this.state.posts.map((element, i) => {
               return (
-                <Posts user={this.state.username} posts={element} key={i} />
+                <Posts
+                  user={this.state.username}
+                  delPost={this.props.deletePost}
+                  post={element}
+                  key={i}
+                />
               );
             })
           )}
@@ -68,4 +81,4 @@ class Feed extends Component {
   }
 }
 
-export default FetchPosts(Feed);
+export default Feed;

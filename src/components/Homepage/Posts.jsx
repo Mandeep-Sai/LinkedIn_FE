@@ -13,6 +13,7 @@ import Comments from "./Comments";
 
 class Posts extends Component {
   state = {
+    posts: this.props.post,
     show: false,
     showDelete: false,
     showComments: true,
@@ -26,8 +27,7 @@ class Posts extends Component {
   async editPost() {
     const postText = {
       method: "PUT",
-      url: `https://be-linkedin.herokuapp.com/posts/${this.props.posts._id}`,
-      //url:`https://striveschool.herokuapp.com/api/posts/${this.props.posts._id}`,
+      url: `https://be-linkedin.herokuapp.com/posts/${this.state.posts._id}`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
       },
@@ -36,7 +36,7 @@ class Posts extends Component {
 
     const postFile = {
       method: "POST",
-      url: `https://be-linkedin.herokuapp.com/posts/${this.props.posts._id}`,
+      url: `https://be-linkedin.herokuapp.com/posts/${this.state.posts._id}`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
         user: "user2",
@@ -46,57 +46,39 @@ class Posts extends Component {
     let text = await axios(postText);
     let file = await axios(postFile);
   }
-  deletePost = async () => {
-    let response = await fetch(
-      // `https://striveschool.herokuapp.com/api/posts/${this.props.posts._id}`,
-      `https://be-linkedin.herokuapp.com/posts/${this.props.posts._id}`,
-      {
-        method: "DELETE",
-        headers: new Headers({
-          Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
-        }),
-      }
-    );
-    if (response.ok) {
-      alert("Post deleted Sucessfully");
-    }
-  };
   handleLikes = () => {
     let prevCount = this.state.count;
     this.setState({ count: prevCount + 1 });
   };
-  // commentHandler =()=>{
-  //   let value = this.state.showComments
-  //   this.setState({showComments : !value })
-  // }
+
   render() {
     return (
       <Container className="mt-2 home px-0 forPostsShadow">
         <div className="p-1" id="postHeader">
           <div>
             <img
-              src={`data:image/jpeg;base64,${this.props.posts.user.image}`}
+              src={`data:image/jpeg;base64,${this.state.posts.user.image}`}
               alt=""
             />
             <div>
               <p>
                 <Link
                   className="postUsernames"
-                  to={"/profile/" + this.props.posts.user.username}
+                  to={"/profile/" + this.state.posts.user.username}
                 >
-                  {this.props.posts.user.name}
+                  {this.state.posts.user.name}
                 </Link>
               </p>
               <p style={{ fontSize: "10px", color: "grey" }}>
-                {this.props.posts.updatedAt.slice(0, 10)}
+                {this.state.posts.updatedAt.slice(0, 10)}
               </p>
               <p style={{ fontSize: "10px", color: "grey" }}>
-                {this.props.posts.user.bio}
+                {this.state.posts.user.bio}
               </p>
             </div>
           </div>
           <div>
-            {this.props.user.name !== this.props.posts.user.name ? (
+            {this.props.user === this.state.posts.username ? (
               <>
                 <Dropdown>
                   <Dropdown.Toggle className="d-flex">
@@ -132,20 +114,22 @@ class Posts extends Component {
                     <div className="d-flex mb-2">
                       <img
                         className="img-fluid"
-                        src={this.props.posts.user.image}
+                        src={this.state.posts.user.image}
                         alt=""
                       />
                       <div>
                         <p className="m-0 p-0">
-                          <Link to={"/profile/" + this.props.user.username}>
-                            {this.props.posts.user.name}
+                          <Link
+                            to={"/profile/" + this.state.posts.user.username}
+                          >
+                            {this.state.posts.user.name}
                           </Link>
                         </p>
                         <p
                           className="m-0 p-0"
                           style={{ fontSize: "12px", color: "grey" }}
                         >
-                          {this.props.posts.updatedAt.slice(0, 10)}
+                          {this.state.posts.updatedAt.slice(0, 10)}
                         </p>
                       </div>
                     </div>
@@ -157,7 +141,7 @@ class Posts extends Component {
                           onChange={(e) =>
                             this.setState({ text: e.target.value })
                           }
-                          placeHolder={this.props.posts.text}
+                          placeHolder={this.state.posts.text}
                         />
                         <Form.File
                           onChange={(event) => {
@@ -173,7 +157,12 @@ class Posts extends Component {
                     <Button
                       variant="primary"
                       onClick={() =>
-                        this.setState({ show: false }, () => this.editPost())
+                        this.setState({ show: false }, () =>
+                          this.props.editPost(
+                            this.state.posts._id,
+                            this.state.text
+                          )
+                        )
                       }
                     >
                       Update
@@ -194,7 +183,7 @@ class Posts extends Component {
                       variant="primary"
                       onClick={() =>
                         this.setState({ showDelete: false }, () =>
-                          this.deletePost()
+                          this.props.delPost(this.state.posts._id)
                         )
                       }
                     >
@@ -207,11 +196,11 @@ class Posts extends Component {
           </div>
         </div>
         <div id="postBody">
-          <p className="px-3 py-1">{this.props.posts.text}</p>
-          {this.props.posts.image === undefined ? null : (
+          <p className="px-3 py-1">{this.state.posts.text}</p>
+          {this.state.posts.image === undefined ? null : (
             <img
               className="img-fluid w-100"
-              src={this.props.posts.image}
+              src={`data:image/jpeg;base64,${this.state.posts.image}`}
               alt=""
             />
           )}
@@ -258,7 +247,7 @@ class Posts extends Component {
             </div>
           </div>
           {this.state.showComments ? (
-            <Comments id={this.props.posts._id} />
+            <Comments id={this.state.posts._id} />
           ) : null}
         </div>
       </Container>

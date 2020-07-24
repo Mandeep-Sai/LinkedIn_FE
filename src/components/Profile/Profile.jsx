@@ -30,7 +30,7 @@ class Profile extends Component {
   }
   componentDidMount = async () => {
     let response = await fetch(
-      "https://be-linkedin.herokuapp.com/profile/5f17f09fe0e59837acf4a554",
+      `https://be-linkedin.herokuapp.com/profile/${this.state.username}`,
       {
         method: "GET",
         headers: new Headers({
@@ -44,14 +44,32 @@ class Profile extends Component {
     console.log(parsedJson);
     this.fetchExperience();
   };
-
-  componentDidUpdate = () => {
+  componentDidUpdate = async (prevState) => {
     if (this.props.match.params.id !== this.state.username) {
-      console.log("updated");
+      console.log("hello");
       this.setState({ username: this.props.match.params.id }, async () => {
         await this.fetchExperience();
-        console.log(this.state);
       });
+      //this.setState({ loading: true });
+      //await this.fetchExperience();
+      /*
+      this.setState({ loading: true });
+      let response = await fetch(
+        `https://be-linkedin.herokuapp.com/profile/${this.state.username}`,
+        {
+          method: "GET",
+          headers: new Headers({
+            Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
+            "Content-type": "application/json",
+          }),
+        }
+      );
+      let parsedJson = await response.json();
+      this.setState({ name: parsedJson.username });
+      this.setState({ username: this.props.match.params.id }, async () => {
+        await this.fetchExperience();
+      });
+      */
     }
   };
 
@@ -84,7 +102,6 @@ class Profile extends Component {
       users: usersData.data,
       loading: false,
     });
-    console.log("fesfsdfwe", experiences, usersData.data);
   }
   render() {
     return (

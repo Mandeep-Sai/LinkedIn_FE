@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Button, Container, Row, Col, Form } from "react-bootstrap";
-import '../../styles/HomePage.css'
+import "../../styles/HomePage.css";
 export default class postModal extends Component {
   render() {
     return (
@@ -40,9 +40,10 @@ export default class postModal extends Component {
             <Form>
               <Form.Group>
                 <Form.File
-                  id="exampleFormControlFile1"
-                  label="Example file input"
+                  id="image"
+                  label="image"
                   onChange={this.props.file}
+                  name="image"
                 />
               </Form.Group>
             </Form>

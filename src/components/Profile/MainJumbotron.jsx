@@ -19,7 +19,7 @@ export class MainJumbotron extends Component {
     username: this.props.match.params.id,
     show: false,
     user: "",
-    userImage: ""
+    userImage: "",
   };
 
   bufferToBase64(buf) {
@@ -49,13 +49,13 @@ export class MainJumbotron extends Component {
     this.setState({ user, userImage });
   };
 
-  componentDidUpdate() {
-    if (this.state.username !== this.props.username) {
+  componentDidUpdate = async (prevState) => {
+    if (this.state.username !== prevState.username) {
       this.setState({ username: this.props.username }, () => {
         this.fetchData();
       });
     }
-  }
+  };
   async fetchData() {
     let response = await fetch(
       `https://be-linkedin.herokuapp.com/profile/` + this.state.username,
