@@ -84,6 +84,19 @@ export class MainJumbotron extends Component {
       this.setState({ show: true });
     }
   };
+
+  downloadCV = async () => {
+    try {
+      await fetch (
+        `https://be-linkedin.herokuapp.com/profile/` + this.state.user._id + `/profilePDF`
+      )    
+      console.log(this.state.user._id)
+    } 
+    catch (error) {
+      console.log("This current error" + error + "happened when trying to print the user experiences")      
+    }
+    
+  }
   render() {
     return (
       <>
@@ -132,7 +145,12 @@ export class MainJumbotron extends Component {
                     Something else
                   </Dropdown.Item>
                 </DropdownButton>
-                <Button variant="outline-info">More..</Button>
+                <Button 
+                variant="outline-info"
+                onClick={this.downloadCV}
+                >
+                  Download CV
+                  </Button>
                 <IconContext.Provider value={{ className: "editIcon" }}>
                   <div>
                     <RiPencilLine />
