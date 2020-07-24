@@ -10,6 +10,7 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { FormRow } from "react-bootstrap/Form";
+import { withRouter } from "react-router-dom";
 
 const schema = Yup.object({
   role: Yup.string()
@@ -29,6 +30,9 @@ class LinkedInForm extends React.Component {
     hide: true,
     data: [],
   };
+  componentDidMount = () => {
+    console.log(this.props);
+  };
   sendData = async (values) => {
     let response = await fetch(
       "https://be-linkedin.herokuapp.com/profile/user1/experience",
@@ -43,6 +47,7 @@ class LinkedInForm extends React.Component {
     );
     if (response.ok) {
       alert("Submitted");
+      this.props.history.push("/profile/user1");
     }
   };
   render() {
@@ -208,4 +213,4 @@ class LinkedInForm extends React.Component {
     );
   }
 }
-export default LinkedInForm;
+export default withRouter(LinkedInForm);
