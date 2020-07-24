@@ -87,7 +87,7 @@ export class MainJumbotron extends Component {
 
   downloadCV = async () => {
     try {  
-      await fetch ("http://https://be-linkedin.herokuapp.com/profile/"+ this.state.user.username + "/pdf")
+      window.open("http://https://be-linkedin.herokuapp.com/profile/"+ this.state.user.username + "/pdf")
     } 
     catch (error) {
       console.log("This current error" + error + "happened when trying to print the user experiences")      
