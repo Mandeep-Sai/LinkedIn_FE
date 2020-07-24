@@ -87,12 +87,10 @@ export class MainJumbotron extends Component {
 
   downloadCV = async () => {
     try {
-      console.log(this.state.user.username);
-      window.open(
-        "https://be-linkedin.herokuapp.com/profile/" +
-          this.state.user.username +
-          "/pdf"
+      await fetch(
+        `http://localhost:3003/profile/` + this.state.user._id + `/profilePDF`
       );
+      console.log(this.state.user._id);
     } catch (error) {
       console.log(
         "This current error" +
