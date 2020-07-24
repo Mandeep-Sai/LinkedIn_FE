@@ -115,7 +115,7 @@ class Profile extends Component {
           <Container className="mt-5 pt-3">
             <Row>
               <Col className="col-8">
-                <MainJumbotron username={this.props.match.params.id} />
+                <MainJumbotron username={this.state.username} />
                 <div id="experiences">
                   <div id="header">
                     <p>Experience</p>

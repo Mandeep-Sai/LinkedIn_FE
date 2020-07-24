@@ -41,8 +41,8 @@ export default class Homepage extends Component {
     let data1 = { text: this.state.postsText };
     let postData = {
       method: "POST",
-      // url: `https://be-linkedin.herokuapp.com/posts`,
-      url: `http://localhost:3333/posts`,
+      url: `https://be-linkedin.herokuapp.com/posts`,
+      //url: `http://localhost:3333/posts`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
         user: "user1",
@@ -54,7 +54,8 @@ export default class Homepage extends Component {
 
     let inputFile = {
       method: "POST",
-      url: await `http://localhost:3333/posts/${data.data}`,
+      // url: await `http://localhost:3333/posts/${data.data}`,
+      url: await `https://be-linkedin.herokuapp.com/posts/${data.data}`,
       headers: {
         Authorization: "Basic " + btoa("user7:3UU5dYFvenRuRP7E"),
         "Access-Control-Allow-Origin": "http://127.0.0.1:3000/",

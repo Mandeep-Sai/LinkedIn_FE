@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
 export class MainJumbotron extends Component {
   state = {
     data: [],
-    username: this.props.match.params.id,
+    username: this.props.username,
     show: false,
     user: "",
     userImage: "",
@@ -51,9 +51,9 @@ export class MainJumbotron extends Component {
 
   componentDidUpdate = async (prevState) => {
     if (this.state.username !== prevState.username) {
-      this.setState({ username: this.props.username }, () => {
-        this.fetchData();
-      });
+      console.log(this.state.username);
+      console.log(prevState.username);
+      this.fetchData();
     }
   };
   async fetchData() {
