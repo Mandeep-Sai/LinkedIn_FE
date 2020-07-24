@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
+import { BsThreeDots } from "react-icons/bs";
 
 export class Comment extends Component {
   constructor(props) {
@@ -33,6 +34,17 @@ export class Comment extends Component {
     // console.log(userInfo)
     this.setState({ userInfo });
   };
+  deleteComment = async (id) => {
+    let response = await fetch(
+      `https://be-linkedin.herokuapp.com/comments/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (response.ok) {
+      alert("comment deleted");
+    }
+  };
   render() {
     return (
       <Container id="comment" className="mt-2">
@@ -48,6 +60,21 @@ export class Comment extends Component {
             <p>{this.state.userInfo.bio}</p>
           </div>
           <div id="commentBody">{this.props.info.comment}</div>
+          <div id="editComment">
+            <Dropdown>
+              <Dropdown.Toggle className="d-flex">
+                <BsThreeDots />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() => this.deleteComment(this.props.info._id)}
+                >
+                  Delete Comment
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
       </Container>
     );
