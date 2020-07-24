@@ -87,16 +87,20 @@ export class MainJumbotron extends Component {
 
   downloadCV = async () => {
     try {
-      await fetch (
-        `http://localhost:3003/profile/` + this.state.user._id + `/profilePDF`
-      )    
-      console.log(this.state.user._id)
-    } 
-    catch (error) {
-      console.log("This current error" + error + "happened when trying to print the user experiences")      
+      console.log(this.state.user.username);
+      window.open(
+        "https://be-linkedin.herokuapp.com/profile/" +
+          this.state.user.username +
+          "/pdf"
+      );
+    } catch (error) {
+      console.log(
+        "This current error" +
+          error +
+          "happened when trying to print the user experiences"
+      );
     }
-    
-  }
+  };
   render() {
     return (
       <>
@@ -145,12 +149,9 @@ export class MainJumbotron extends Component {
                     Something else
                   </Dropdown.Item>
                 </DropdownButton>
-                <Button 
-                variant="outline-info"
-                onClick={this.downloadCV}
-                >
+                <Button variant="outline-info" onClick={this.downloadCV}>
                   Download CV
-                  </Button>
+                </Button>
                 <IconContext.Provider value={{ className: "editIcon" }}>
                   <div>
                     <RiPencilLine />
