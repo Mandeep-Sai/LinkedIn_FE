@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
 export class MainJumbotron extends Component {
   state = {
     data: [],
-    username: this.props.username,
+    username: this.props.match.params.id,
     show: false,
     user: "",
     userImage: "",
@@ -32,6 +32,9 @@ export class MainJumbotron extends Component {
   }
 
   componentDidMount = async () => {
+    {
+      console.log("USERNAME", this.state.username);
+    }
     this.fetchData();
     let response = await fetch(
       "https://be-linkedin.herokuapp.com/profile/" + this.state.username,
@@ -50,10 +53,11 @@ export class MainJumbotron extends Component {
   };
 
   componentDidUpdate = async (prevState) => {
-    if (this.state.username !== prevState.username) {
-      console.log(this.state.username);
-      console.log(prevState.username);
-      this.fetchData();
+    if (this.state.username !== this.props.username) {
+      console.log("HEREHRERE");
+      this.setState({ username: this.props.username }, async () => {
+        await this.fetchData();
+      });
     }
   };
   async fetchData() {
@@ -68,7 +72,7 @@ export class MainJumbotron extends Component {
       }
     );
     let parsedJson = await response.json();
-    this.setState({ data: parsedJson });
+    this.setState({ user: parsedJson[0] });
   }
   verifyProfile = async () => {
     console.log(this.state.data);
@@ -79,86 +83,94 @@ export class MainJumbotron extends Component {
   render() {
     return (
       <>
-        <Jumbotron>
-          <div className="bgImage">
-            <img
-              src="https://miro.medium.com/max/1124/1*92adf06PCF91kCYu1nPLQg.jpeg"
-              alt=""
-            />
-            <IconContext.Provider value={{ className: "jumbotronCamera" }}>
-              <div>
-                <FaCamera />
-              </div>
-            </IconContext.Provider>
-          </div>
-          <div id="profileSection">
-            <div style={{ cursor: "pointer" }}>
-              {this.state.user.image ? (
-                <img
-                  onClick={this.verifyProfile}
-                  src={`data:image/jpeg;base64,${this.state.userImage}`}
-                  alt=""
-                />
-              ) : (
-                <img
-                  onClick={this.verifyProfile}
-                  src="https://capenetworks.com/static/images/testimonials/user-icon.svg"
-                  alt=""
-                />
-              )}
-              {/* <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt=""/> */}
+        {this.state.data !== "undefined" && (
+          <Jumbotron>
+            {console.log("DATA AFTER CONDITION", this.state.data)}
+            {console.log("USER NAMEE", this.state.data.name)}
+            <div className="bgImage">
+              <img
+                src="https://miro.medium.com/max/1124/1*92adf06PCF91kCYu1nPLQg.jpeg"
+                alt=""
+              />
+              <IconContext.Provider value={{ className: "jumbotronCamera" }}>
+                <div>
+                  <FaCamera />
+                </div>
+              </IconContext.Provider>
             </div>
-            <div id="profileButtons">
-              <DropdownButton
-                id="dropdown-basic-button"
-                title="Add profile section"
-              >
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </DropdownButton>
-              <Button variant="outline-info">More..</Button>
+            <div id="profileSection">
+              <div style={{ cursor: "pointer" }}>
+                {this.state.user.image ? (
+                  <img
+                    onClick={this.verifyProfile}
+                    src={`data:image/jpeg;base64,${this.state.userImage}`}
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    onClick={this.verifyProfile}
+                    src="https://capenetworks.com/static/images/testimonials/user-icon.svg"
+                    alt=""
+                  />
+                )}
+                {/* <img src="https://capenetworks.com/static/images/testimonials/user-icon.svg" alt=""/> */}
+              </div>
+              <div id="profileButtons">
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title="Add profile section"
+                >
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Another action
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">
+                    Something else
+                  </Dropdown.Item>
+                </DropdownButton>
+                <Button variant="outline-info">More..</Button>
+                <IconContext.Provider value={{ className: "editIcon" }}>
+                  <div>
+                    <RiPencilLine />
+                  </div>
+                </IconContext.Provider>
+              </div>
+            </div>
+            <div id="profileInfo">
+              <div id="info">
+                <div id="personalInfo">
+                  <p>{this.state.user.name + " " + this.state.user.surname}</p>
+                  <p>{this.state.user.title}</p>
+                  <p>
+                    {this.state.user.area} -<span> 51 connections </span>-
+                    <span> Contact info </span>
+                  </p>
+                </div>
+                <p>Leibniz Universitat Hannover</p>
+              </div>
+            </div>
+            <div id="present">
+              <div>
+                <p>Open to job opportunities</p>
+                <p>{this.state.user.bio}</p>
+                <p>See all details</p>
+              </div>
               <IconContext.Provider value={{ className: "editIcon" }}>
                 <div>
                   <RiPencilLine />
                 </div>
               </IconContext.Provider>
             </div>
-          </div>
-          <div id="profileInfo">
-            <div id="info">
-              <div id="personalInfo">
-                <p>{this.state.user.name + " " + this.state.user.surname}</p>
-                <p>{this.state.user.title}</p>
-                <p>
-                  {this.state.user.area} -<span> 51 connections </span>-
-                  <span> Contact info </span>
-                </p>
-              </div>
-              <p>Leibniz Universitat Hannover</p>
+            <div id="presentBelowSection">
+              <IconContext.Provider value={{ className: "eyeIcon" }}>
+                <div>
+                  <FaEye />
+                </div>
+              </IconContext.Provider>
+              <p>All LinkedIn members</p>
             </div>
-          </div>
-          <div id="present">
-            <div>
-              <p>Open to job opportunities</p>
-              <p>{this.state.user.bio}</p>
-              <p>See all details</p>
-            </div>
-            <IconContext.Provider value={{ className: "editIcon" }}>
-              <div>
-                <RiPencilLine />
-              </div>
-            </IconContext.Provider>
-          </div>
-          <div id="presentBelowSection">
-            <IconContext.Provider value={{ className: "eyeIcon" }}>
-              <div>
-                <FaEye />
-              </div>
-            </IconContext.Provider>
-            <p>All LinkedIn members</p>
-          </div>
-        </Jumbotron>
+          </Jumbotron>
+        )}
         <div id="about">
           <div>
             <p style={{ fontSize: "24px" }}>About</p>
