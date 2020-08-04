@@ -86,17 +86,11 @@ export class MainJumbotron extends Component {
   };
 
   downloadCV = async () => {
-    try {
-      await fetch(
-        `http://localhost:3003/profile/` + this.state.user._id + `/profilePDF`
-      );
-      console.log(this.state.user._id);
-    } catch (error) {
-      console.log(
-        "This current error" +
-          error +
-          "happened when trying to print the user experiences"
-      );
+    try {  
+      window.open("http://https://be-linkedin.herokuapp.com/profile/"+ this.state.user.username + "/pdf")
+    } 
+    catch (error) {
+      console.log("This current error" + error + "happened when trying to print the user experiences")      
     }
   };
   render() {
