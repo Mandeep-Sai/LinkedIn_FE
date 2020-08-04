@@ -4,25 +4,22 @@ import { TiEdit } from "react-icons/ti";
 import { BsThreeDots } from "react-icons/bs";
 import { MdClose, MdSend } from "react-icons/md";
 import io from "socket.io-client";
-
 export class MessageBar extends Component {
   socket = null;
   constructor(props) {
     super(props);
-
     this.state = {
       connections: [],
       bottom: 0,
       showChatbox: false,
       recipientName: "",
-      senderUsername: "user20",
-      recipientUsername: "user7",
+      senderUsername: "user7",
+      recipientUsername: "user20",
       message: "",
       messages: [],
     };
   }
   //
-
   //
   bufferToBase64(buf) {
     var binstr = Array.prototype.map
@@ -46,9 +43,8 @@ export class MessageBar extends Component {
       element.image = base64;
     });
     this.setState({ connections: parsedJson });
-
     let messagesResponse = await fetch(
-      "https://striveschool-test.herokuapp.com/api/messages/user20"
+      "https://striveschool-test.herokuapp.com/api/messages/user7"
     );
     let messages = await messagesResponse.json();
     console.log(messages);
@@ -63,7 +59,9 @@ export class MessageBar extends Component {
       console.log("connected!");
       alert("connected");
     });
-
+    this.socket.emit("setUsername", {
+      username: this.state.senderUsername,
+    });
     this.socket.on("chatmessage", (msg) =>
       this.setState({ messages: this.state.messages.concat(msg) })
     );
@@ -87,13 +85,11 @@ export class MessageBar extends Component {
   sendMessage = (e) => {
     e.preventDefault();
     if (this.state.message !== "") {
-      this.socket.emit("setUsername", {
-        username: this.state.senderUsername,
-      });
+      console.log("hello");
       this.socket.emit("chatmessage", {
         //  from:this.state.senderUsername,
         to: this.state.recipientUsername,
-        msg: this.state.message,
+        text: this.state.message,
       });
       this.setState({ message: "" });
     }
@@ -140,7 +136,21 @@ export class MessageBar extends Component {
               </div>
             </div>
             <div id="chat">
-              <div id="messages"></div>
+              <div id="messages">
+                {this.state.messages.map((message) => {
+                  return (
+                    <p
+                      className={
+                        message.from === this.state.senderUsername
+                          ? "text-right"
+                          : "text-left"
+                      }
+                    >
+                      {message.text}
+                    </p>
+                  );
+                })}
+              </div>
               <div id="input">
                 <input
                   type="text"

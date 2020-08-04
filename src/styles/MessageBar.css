@@ -109,3 +109,9 @@
 #chatbox #chat #input input:focus {
   outline: none;
 }
+#chatbox #chat #messages {
+  height: 200px;
+  width: 280px;
+  margin-left: 20px;
+  overflow: auto;
+}
