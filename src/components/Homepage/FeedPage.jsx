@@ -4,15 +4,14 @@ import HomeProfile from "./HomeProfile";
 import Modal from "./Modal";
 import NavBar from "../NavBar";
 import axios from "axios";
-import Feed from "./Feed";
 import NewsFeedRightSidebar from "./NewsFeedRightSidebar";
 import Leftsidebar from "./LeftSidebar";
 import "../../styles/HomePage.css";
 import { FiEdit, FiVideo } from "react-icons/fi";
 import { GrCamera } from "react-icons/gr";
-import { IconContext } from "react-icons";
 import { AiOutlineFileText } from "react-icons/ai";
 import Posts from "./Posts";
+import MessageBar from "../messaging/MessageBar";
 export default class Homepage extends Component {
   state = {
     showModal: false,
@@ -230,6 +229,7 @@ export default class Homepage extends Component {
             </Col>
           </Row>
         </Container>
+        <MessageBar />
       </>
     );
   }
