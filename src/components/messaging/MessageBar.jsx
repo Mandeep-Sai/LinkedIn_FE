@@ -13,10 +13,11 @@ export class MessageBar extends Component {
       bottom: 0,
       showChatbox: false,
       recipientName: "",
-      senderUsername: "user7",
+      senderUsername: "user18",
       recipientUsername: "user20",
       message: "",
       messages: [],
+      check: true,
     };
   }
   //
@@ -44,7 +45,7 @@ export class MessageBar extends Component {
     });
     this.setState({ connections: parsedJson });
     let messagesResponse = await fetch(
-      "https://striveschool-test.herokuapp.com/api/messages/user7"
+      "https://striveschool-test.herokuapp.com/api/messages/user18"
     );
     let messages = await messagesResponse.json();
     console.log(messages);
@@ -63,9 +64,13 @@ export class MessageBar extends Component {
       username: this.state.senderUsername,
     });
     this.socket.on("chatmessage", (msg) =>
-      this.setState({ messages: this.state.messages.concat(msg) })
+      this.setState({
+        messages: this.state.messages.concat(msg),
+        check: false,
+      })
     );
   };
+
   handleMessaging = () => {
     if (this.state.bottom === 0) {
       this.setState({ bottom: -245 });
